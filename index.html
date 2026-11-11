@@ -96,7 +96,23 @@ main,footer,.top{position:relative;z-index:1}
 .nav a{text-decoration:none;color:var(--text-secondary);text-shadow:var(--tshadow);transition:color .3s}
 .nav a:hover{color:var(--text-primary)}
 .top .btn{padding:10px 16px;font-size:16px;border-radius:999px}
-@media (max-width:820px){.nav{display:none}.top .btn{margin-inline-start:auto}}
+.menu-btn{display:none}
+@media (max-width:820px){
+  .nav{display:none}
+  .top .wrap{gap:10px}
+  .top .btn{margin-inline-start:auto;padding:9px 13px;font-size:15px}
+  .brand{font-size:23px}
+  .menu-btn{display:grid;align-content:center;gap:5px;width:44px;height:44px;padding:0 11px;border-radius:12px;border:1.5px solid var(--line-strong);background:rgba(28,19,14,.5);cursor:pointer}
+  .menu-btn span{display:block;height:2px;border-radius:2px;background:var(--text-primary);transition:transform .35s var(--ease-out),opacity .25s}
+  .menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .mnav{display:grid;padding:6px var(--gr) 16px var(--gl);background:rgba(28,19,14,.97);border-bottom:1px solid var(--line);animation:drop .35s var(--ease-out)}
+  .mnav a{padding:14px 4px;font:400 22px/1.2 var(--f-display);text-decoration:none;color:var(--text-primary);border-bottom:1px dashed var(--line)}
+  .mnav a:last-child{border-bottom:0;color:var(--accent)}
+}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@media (max-width:360px){.top .btn .num{display:none}}
 
 /* ===== hero ===== */
 .hero{position:relative;height:600vh}
@@ -231,6 +247,15 @@ section.sec{padding-block:110px}
 .col span{display:block;font-size:15px;line-height:1.45;color:var(--text-secondary)}
 .col .star > b::before{content:"★ ";color:var(--accent);font-size:.8em}
 .col .pr{font-style:normal;font-family:var(--f-label);font-weight:500;font-size:15px;color:var(--accent);direction:ltr;unicode-bidi:isolate;white-space:nowrap;margin-inline-start:6px}
+.chips-menu{display:none}
+@media (max-width:720px){
+  .chips-menu{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:-10px calc(-1 * var(--gr)) 16px calc(-1 * var(--gl));padding:4px var(--gr) 6px var(--gl);scroll-snap-type:x mandatory}
+  .chips-menu::-webkit-scrollbar{display:none}
+  .chips-menu button{flex:none;scroll-snap-align:start;font:500 16px/1 var(--f-body);color:var(--text-primary);background:rgba(246,238,225,.06);border:1.5px solid var(--line-strong);border-radius:999px;padding:11px 16px;cursor:pointer;transition:background-color .3s,border-color .3s}
+  .chips-menu button[aria-selected="true"]{background:var(--accent);border-color:var(--accent)}
+  .board .col{display:none}
+  .board .col.on{display:block;border:0;animation:drop .35s var(--ease-out)}
+}
 .menu-note{margin-top:20px;color:var(--text-secondary);font-size:15px}
 @media (max-width:960px){.board{grid-template-columns:1fr 1fr}.col{border-inline-start:1px dashed var(--line)}.col:nth-child(odd){border-inline-start:0}.col:nth-child(n+3){border-top:1px dashed var(--line)}}
 @media (max-width:540px){.board{grid-template-columns:1fr}.col{border-inline-start:0}.col + .col{border-top:1px dashed var(--line)}}
@@ -335,7 +360,8 @@ html.a11y-contrast .env,html.a11y-contrast #flour{display:none}
 html.a11y-links a{text-decoration:underline!important;text-underline-offset:3px}
 html.a11y-still *,html.a11y-still *::before,html.a11y-still *::after{animation:none!important;transition:none!important}
 html.a11y-font body,html.a11y-font h1,html.a11y-font h2,html.a11y-font h3,html.a11y-font .brand{font-family:Arial,"Arial Hebrew",sans-serif!important;letter-spacing:.01em}
-@media (max-width:720px){.fab{width:50px;height:50px}.fab svg{width:26px;height:26px}.floats{top:calc(74px + env(safe-area-inset-top,0px))}}
+@media (max-width:720px){.fab{width:46px;height:46px}.fab svg{width:24px;height:24px}.fab.wolt svg{width:38px;height:38px}.floats{top:calc(76px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px));gap:10px}.a11y-wrap{left:calc(10px + env(safe-area-inset-left,0px))}
+  body.scrolling:not(.in-hero) .floats{opacity:.15;transform:translateX(-30px)}}
 
 /* section jump curtain */
 .curtain{position:fixed;inset:0;z-index:40;pointer-events:none;background:var(--accent);transform:scaleX(0);transform-origin:right center;transition:transform .42s var(--ease-soft)}
@@ -373,7 +399,16 @@ html.a11y-still .spiral path{stroke-dashoffset:0}
       <a href="#visit">שעות ומיקום</a>
     </nav>
     <a class="btn primary" href="tel:+97235582020">להזמנה <span class="num">03-558-2020</span></a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="תפריט ניווט"><span></span><span></span><span></span></button>
   </div>
+  <nav class="mnav" id="mnav" aria-label="ניווט" hidden>
+    <a href="#top">דף הבית</a>
+    <a href="#oven">התנור</a>
+    <a href="#menu">התפריט</a>
+    <a href="#reviews">ביקורות</a>
+    <a href="#visit">שעות ומיקום</a>
+    <a href="#order">הזמנה</a>
+  </nav>
 </header>
 
 <main id="main" tabindex="-1">
@@ -471,7 +506,15 @@ html.a11y-still .spiral path{stroke-dashoffset:0}
         <h2>התפריט</h2>
         <p>פיצות, פסטות, מלוואח וג׳חנון, סלטים ועסקיות צהריים. הכל כשר למהדרין, חלבי.</p>
       </div>
-      <div class="board rv">
+      <div class="chips-menu" role="tablist" aria-label="קטגוריות בתפריט">
+        <button type="button" role="tab" aria-selected="true" data-i="0">פיצות</button>
+        <button type="button" role="tab" aria-selected="false" data-i="1">פסטות</button>
+        <button type="button" role="tab" aria-selected="false" data-i="2">התימנייה</button>
+        <button type="button" role="tab" aria-selected="false" data-i="3">סלטים</button>
+        <button type="button" role="tab" aria-selected="false" data-i="4">עסקיות</button>
+        <button type="button" role="tab" aria-selected="false" data-i="5">קינוחים ושתייה</button>
+      </div>
+      <div class="board rv" id="board">
 <div class="col"><h3>פיצות</h3><ul><li><b>פיצה אישית S <i class="pr">₪37</i></b><span>רוטב עגבניות וגבינה. בצק דק או עבה, אפשר ללא גלוטן (+₪5)</span></li><li><b>פיצה משפחתית L <i class="pr">₪64</i></b><span>בצק דק או עבה. רוטב שמנת פטריות (+₪24) או רוזה (+₪34)</span></li><li class="star"><b>פיצה שקשוקה <i class="pr">S ₪67 · L ₪110</i></b></li><li><b>פיצה טבעונית <i class="pr">S ₪42 · L ₪72</i></b><span>גבינה טבעונית</span></li><li><b>תוספות <i class="pr">S ₪5–12 · L ₪10–16</i></b><span>זיתים, תירס, בצל, עגבנייה, פלפל חריף, פטריות, בולגרית, ביצה קשה, אקסטרה גבינה. על כל המגש או על חצי</span></li></ul></div>
 <div class="col"><h3>פסטות</h3><ul><li class="star"><b>פסטה פנה <i class="pr">₪47</i></b><span>רוטב עגבניות או שמנת פטריות, רוזה ב-+₪6</span></li><li><b>רביולי <i class="pr">₪54</i></b><span>רביולי גבינות או בטטה, ברוטב לבחירה</span></li><li><b>תוספת הקרמה <i class="pr">₪6</i></b><span>גבינה מוקרמת מעל הפסטה</span></li></ul></div>
 <div class="col"><h3>התימנייה</h3><ul><li class="star"><b>מלוואח פיצה <i class="pr">₪36</i></b><span>רוטב פיצה וגבינה צהובה, עם רסק וביצה קשה</span></li><li><b>מלוואח גבינה <i class="pr">₪36</i></b><span>עם רסק עגבניות וביצה קשה</span></li><li><b>מלוואח שמנת פטריות <i class="pr">₪40</i></b><span>עם רוטב אלפרדו</span></li><li><b>מלוואח פתוח / מגולגל <i class="pr">₪33 / ₪30</i></b></li><li><b>ג׳חנון <i class="pr">₪30</i></b><span>רסק, ביצה, חריף, חומוס או טחינה</span></li><li><b>זיווה שומשום <i class="pr">₪47</i></b><span>גבינה או זיתים, עם ביצה, רסק וחריף</span></li><li><b>טוסט בהרכבה אישית <i class="pr">₪42</i></b><span>רוטב פיצה, שום או אלף האיים</span></li><li><b>לחם שום <i class="pr">₪28</i></b><span>S, L או XL ענקי</span></li></ul></div>
@@ -747,22 +790,33 @@ html.a11y-still .spiral path{stroke-dashoffset:0}
     return false;
   }
   var curIdx = 0;
+  /* portrait screens: the board blurs out to fill the screen, the pizza sits sharp and big in the middle */
+  var blurC = document.createElement("canvas"), blurX = blurC.getContext("2d");
+  var featC = document.createElement("canvas"), featX = featC.getContext("2d");
+  blurC.width = 27; blurC.height = 48;
   function paintPortrait(cv, c2, idx, p){
     var j = nearest(idx); if (j < 0) return -1;
-    var im = imgs[j], cw = cv.width, ch = cv.height;
-    var w = cw * 1.85, h = w * im.naturalHeight / im.naturalWidth;
+    var im = imgs[j], cw = cv.width, ch = cv.height, iw = im.naturalWidth, ih = im.naturalHeight;
     var fx = 0.43 + 0.05 * p;                     /* the pizza drifts right a little as the camera settles */
-    var x = cw / 2 - w * fx, y = ch * 0.34 - h / 2;
-    c2.fillStyle = "#1C130E"; c2.fillRect(0, 0, cw, ch);
-    var sc = Math.max(cw / im.naturalWidth, ch / im.naturalHeight) * 1.1;
-    c2.globalAlpha = 0.28;
-    c2.drawImage(im, (cw - im.naturalWidth * sc) * 0.4, (ch - im.naturalHeight * sc) / 2, im.naturalWidth * sc, im.naturalHeight * sc);
-    c2.globalAlpha = 1;
-    c2.drawImage(im, x, y, w, h);
-    var g = c2.createLinearGradient(0, y, 0, y + h);
-    g.addColorStop(0, "rgba(28,19,14,.95)"); g.addColorStop(0.12, "rgba(28,19,14,0)");
-    g.addColorStop(0.88, "rgba(28,19,14,0)"); g.addColorStop(1, "rgba(28,19,14,.95)");
-    c2.fillStyle = g; c2.fillRect(0, y, cw, h);
+    /* 1. backdrop: the same frame shrunk to a few pixels and stretched back, a free soft blur in the frame's own colors */
+    var sw = ih * 27 / 48, sx = clamp(iw * fx - sw / 2, 0, iw - sw);
+    blurX.drawImage(im, sx, 0, sw, ih, 0, 0, 27, 48);
+    c2.imageSmoothingEnabled = true; c2.imageSmoothingQuality = "high";
+    c2.drawImage(blurC, 0, 0, 27, 48, -cw * 0.08, -ch * 0.05, cw * 1.16, ch * 1.1);
+    c2.fillStyle = "rgba(20,13,9,.42)"; c2.fillRect(0, 0, cw, ch);
+    /* 2. the film, big and sharp, with its top and bottom edges feathered into the backdrop */
+    var w = cw * 1.75, h = w * ih / iw;
+    var x = cw / 2 - w * fx, y = ch * 0.4 - h / 2;
+    if (featC.width !== cw || featC.height !== Math.ceil(h)) { featC.width = cw; featC.height = Math.ceil(h); }
+    featX.globalCompositeOperation = "source-over";
+    featX.clearRect(0, 0, featC.width, featC.height);
+    featX.drawImage(im, x, 0, w, h);
+    featX.globalCompositeOperation = "destination-in";
+    var g = featX.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(0.2, "rgba(0,0,0,1)");
+    g.addColorStop(0.8, "rgba(0,0,0,1)"); g.addColorStop(1, "rgba(0,0,0,0)");
+    featX.fillStyle = g; featX.fillRect(0, 0, featC.width, featC.height);
+    c2.drawImage(featC, 0, y);
     return j;
   }
   function drawHero(p){
@@ -1061,6 +1115,26 @@ html.a11y-still .spiral path{stroke-dashoffset:0}
       glide(y, 950, function(){ curtain.classList.remove("out"); finish(); });
     }, 460);
   });
+  /* phone menu sheet */
+  var menuBtn = $("#menuBtn"), mnav = $("#mnav");
+  function setMenu(open){ mnav.hidden = !open; menuBtn.setAttribute("aria-expanded", open ? "true" : "false"); }
+  menuBtn.addEventListener("click", function(){ setMenu(mnav.hidden); });
+  mnav.addEventListener("click", function(e){ if (e.target.closest("a")) setMenu(false); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !mnav.hidden) { setMenu(false); menuBtn.focus(); } });
+  /* phone menu categories */
+  var board = $("#board"), cols = $$(".col", board), chips = $$(".chips-menu button");
+  function showCat(i){
+    cols.forEach(function(c, n){ c.classList.toggle("on", n === i); });
+    chips.forEach(function(b, n){ b.setAttribute("aria-selected", n === i ? "true" : "false"); });
+  }
+  chips.forEach(function(b){ b.addEventListener("click", function(){ showCat(+b.dataset.i); b.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" }); }); });
+  showCat(0);
+  /* while a phone scrolls, the floating buttons step aside so they never sit on the text being read */
+  var scrollT = null;
+  addEventListener("scroll", function(){
+    if (!document.body.classList.contains("scrolling")) document.body.classList.add("scrolling");
+    clearTimeout(scrollT); scrollT = setTimeout(function(){ document.body.classList.remove("scrolling"); }, 700);
+  }, { passive: true });
   var yr = $("#year"); if (yr) yr.textContent = new Date().getFullYear();
 
   function placeBands(){
